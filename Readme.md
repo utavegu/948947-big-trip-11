@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Антон Леонидович](https://up.htmlacademy.ru/ecmascript/11/user/948947).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Пушков](https://htmlacademy.ru/profile/id638545).
 
 ---
 
