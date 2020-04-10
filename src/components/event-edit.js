@@ -1,5 +1,5 @@
 // Разметка редактирования события
-export const createEditEventTemplate = () => {
+export const createEditEvent = () => {
   return `
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">

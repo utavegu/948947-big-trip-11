@@ -1,5 +1,5 @@
 // Разметка события
-export const createEventTemplate = () => {
+export const createEvent = () => {
   return `
     <li class="trip-events__item">
       <div class="event">
