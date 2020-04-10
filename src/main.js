@@ -22,7 +22,7 @@ const eventContainer = document.querySelector(`.trip-events`); // Контейн
 render(tripMain, createRouteAndCost()); // Отрисовка маршрута и стоимости
 render(tripControl, createMenu()); // Отрисовка меню
 render(eventContainer, createSort(), `beforeend`); // Отрисовка сортировки
-render(tripControl, createFilter(), 'beforeend'); // Отрисовка фильтра
+render(tripControl, createFilter(), `beforeend`); // Отрисовка фильтра
 render(eventContainer, createDay(), `beforeend`); // Отрисовка дня
 
 
