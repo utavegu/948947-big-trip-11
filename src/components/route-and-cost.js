@@ -1,4 +1,5 @@
 // Разметка маршрута и стоимости
+// ТЕБЯ Я ДЕЛАТЬ НЕ БУДУ, НО И УДАЛЯТЬ ПОКА ТОЖЕ
 export const createRouteAndCost = () => {
   return `
   <section class="trip-main__trip-info  trip-info">
