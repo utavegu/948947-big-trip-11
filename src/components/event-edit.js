@@ -1,21 +1,8 @@
+import {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, typeTranslator} from "../const.js";
+import {getRandomIntegerNumber, getRandomArrayItem, castTimeFormat, fillAnArray_VER2} from "../util.js";
+
 // Разметка редактирования события
 const createEditEvent = (event) => {
-
-  const {type, price, planned, offer, offerPrice, startTime, endTime, separator, phrase, photo} = event;
-
-  // Да, знаю что так делать не надо, и что неплохо бы это в какой-нибудь отдельный файл вынести. Для простоты пока просто скопировал.
-  const typeDict = {
-    bus: `Автобусом`,
-    checkin: `Ебануть сэлфи`,
-    drive: `На машине`,
-    flight: `Самолетом`,
-    restaurant: 'Зохавать бурито',
-    ship: `Пароходом`,
-    sightseeing: `Посмотреть что-то`,
-    taxi: `Вези меня!..`,
-    train: `На поезде`,
-    transport: `На Сапсане`,
-  };
 
   return `
     <form class="event  event--edit" action="#" method="post">
@@ -23,7 +10,7 @@ const createEditEvent = (event) => {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${event.type.name}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -90,13 +77,15 @@ const createEditEvent = (event) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${typeDict[type]}${separator}
+            ${event.type.name}${event.type.pretext}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${planned}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.city}" list="destination-list-1">
           <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+            <option value="Мытищи"></option>
+            <option value="Урюпинск"></option>
+            <option value="Елабуга"></option>
+            <option value="Тумтук"></option>
+            <option value="Кандрыкуль"></option>
           </datalist>
         </div>
 
@@ -106,14 +95,14 @@ const createEditEvent = (event) => {
             From
           </label>
 
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="18/03/19 12:25">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${castTimeFormat(event.startDate.getDate())}/${castTimeFormat(event.startDate.getMonth())}/${String(event.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.startDate.getHours())}:${castTimeFormat(event.startDate.getMinutes())}">
           &mdash;
 
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
 
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="18/03/19 13:35">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${castTimeFormat(event.endDate.getDate())}/${castTimeFormat(event.endDate.getMonth())}/${String(event.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.endDate.getHours())}:${castTimeFormat(event.endDate.getMinutes())}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -121,7 +110,7 @@ const createEditEvent = (event) => {
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${event.price}">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -150,52 +139,7 @@ const createEditEvent = (event) => {
 
           <div class="event__available-offers">
 
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-              <label class="event__offer-label" for="event-offer-luggage-1">
-                <span class="event__offer-title">${offer}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-              </label>
-            </div>
-
-            <!--
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-              <label class="event__offer-label" for="event-offer-comfort-1">
-                <span class="event__offer-title">${offer}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-              </label>
-            </div>
-
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-              <label class="event__offer-label" for="event-offer-meal-1">
-                <span class="event__offer-title">${offer}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-              </label>
-            </div>
-
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-              <label class="event__offer-label" for="event-offer-seats-1">
-                <span class="event__offer-title">${offer}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-              </label>
-            </div>
-
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-              <label class="event__offer-label" for="event-offer-train-1">
-                <span class="event__offer-title">${offer}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-              </label>
-            </div>
-            -->
+            ${event.offersElement2}
 
           </div>
         </section>
@@ -203,11 +147,11 @@ const createEditEvent = (event) => {
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
           <p class="event__destination-description">
-            ${phrase}
+            ${event.phrase}
           </p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
-              ${photo}
+            ${event.photo}
             </div>
           </div>
 
