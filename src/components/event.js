@@ -1,5 +1,5 @@
-import {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, typeTranslator} from "../const.js";
-import {getRandomIntegerNumber, getRandomArrayItem, castTimeFormat, fillAnArray_VER2} from "../util.js";
+import {msTranslator, TypeTranslator} from "../const.js";
+import {castTimeFormat} from "../util.js";
 
 // Разметка события
 const createEvent = (event) => {
@@ -15,15 +15,15 @@ const createEvent = (event) => {
           <img class="event__type-icon" width="42" height="42" src="img/icons/${event.type.name}.png" alt="Event type icon">
         </div>
 
-        <h3 class="event__title">${typeTranslator[event.type.name]}${event.type.pretext}${event.city}</h3>
+        <h3 class="event__title">${TypeTranslator[event.type.name]}${event.type.pretext}${event.city}</h3>
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T12:25">${castTimeFormat(event.startDate.getHours())}:${castTimeFormat(event.startDate.getMinutes())}</time>
+            <time class="event__start-time" datetime="2019-03-18T12:25">${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T13:35">${castTimeFormat(event.endDate.getHours())}:${castTimeFormat(event.endDate.getMinutes())}</time>
+            <time class="event__end-time" datetime="2019-03-18T13:35">${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}</time>
           </p>
-          <p class="event__duration">${Math.trunc(event.timeSpent/msTranslator.day)}D ${Math.trunc((event.timeSpent/msTranslator.hour)%24)}H ${Math.trunc(event.timeSpent/msTranslator.min%60)}M</p>
+          <p class="event__duration">${Math.trunc(event.interval.timeSpent / msTranslator.day)}D ${Math.trunc((event.interval.timeSpent / msTranslator.hour) % 24)}H ${Math.trunc(event.interval.timeSpent / msTranslator.min % 60)}M</p>
         </div>
 
         <p class="event__price">
@@ -34,7 +34,7 @@ const createEvent = (event) => {
 
         <ul class="event__selected-offers">
           
-          ${event.offersElement1}
+          ${event.offersElement}
 
         </ul>
 

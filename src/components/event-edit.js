@@ -1,9 +1,9 @@
-import {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, typeTranslator} from "../const.js";
-import {getRandomIntegerNumber, getRandomArrayItem, castTimeFormat, fillAnArray_VER2} from "../util.js";
+import {castTimeFormat} from "../util.js";
 
 // Разметка редактирования события
 const createEditEvent = (event) => {
 
+  // В будущем этот файл думаю естественным образом прорядится, в ходе работы над проектом
   return `
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
@@ -95,14 +95,14 @@ const createEditEvent = (event) => {
             From
           </label>
 
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${castTimeFormat(event.startDate.getDate())}/${castTimeFormat(event.startDate.getMonth())}/${String(event.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.startDate.getHours())}:${castTimeFormat(event.startDate.getMinutes())}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${castTimeFormat(event.interval.startDate.getDate())}/${castTimeFormat(event.interval.startDate.getMonth())}/${String(event.interval.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}">
           &mdash;
 
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
 
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${castTimeFormat(event.endDate.getDate())}/${castTimeFormat(event.endDate.getMonth())}/${String(event.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.endDate.getHours())}:${castTimeFormat(event.endDate.getMinutes())}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${castTimeFormat(event.interval.endDate.getDate())}/${castTimeFormat(event.interval.endDate.getMonth())}/${String(event.interval.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -139,7 +139,7 @@ const createEditEvent = (event) => {
 
           <div class="event__available-offers">
 
-            ${event.offersElement2}
+            ${event.offersElementEdit}
 
           </div>
         </section>

@@ -13,11 +13,17 @@ const OFFERS_ACTIONS = [
   `Дразнить гвардейца`,
   `Прыгнуть бомбочкой в бассейн с криком "ТАААААГИИИЛ!!111!"`,
   `Арбуз джуз!`,
+  `Съесть жаренного таракана`,
   `Спереть полотенце из отеля`,
   `Пукнуть в душном автобусе`,
   `Покормить аниматора`,
   `Фото с обезьянкой`,
-  `Вареная кукуруза`
+  `Вареная кукуруза`,
+  `Наладить дипломатические отношения с тайландскими путанами`,
+  `Принять участие в гей-параде`,
+  `Ударить в рынду`,
+  `Затариться турецким золотом`,
+  `Погладить осьминога`
 ];
 
 const CITIES = [
@@ -54,9 +60,9 @@ const eventType = [
 // Не получилось тоже самое провернуть внутри объекта, потому сделал так... дело наверное в том, что const, потом попробую let... хотя не должно по логике...
 
 const sec = 1000; // Миллисекунд в секунде
-const min = sec*60; // Миллисекунд в минуте
-const hour = min*60; // Миллисекунд в часе
-const day = hour*24; // Миллисекунд в дне
+const min = sec * 60; // Миллисекунд в минуте
+const hour = min * 60; // Миллисекунд в часе
+const day = hour * 24; // Миллисекунд в дне
 
 
 const msTranslator = {
@@ -66,12 +72,12 @@ const msTranslator = {
   day
 };
 
-const typeTranslator = {
+const TypeTranslator = {
   bus: `Автобусом`,
   checkin: `Ебануть сэлфи`,
   drive: `На машине`,
   flight: `Самолетом`,
-  restaurant: 'Зохавать бурито',
+  restaurant: `Зохавать бурито`,
   ship: `Пароходом`,
   sightseeing: `Посмотреть что-то`,
   taxi: `Вези меня!..`,
@@ -79,4 +85,4 @@ const typeTranslator = {
   transport: `На Сапсане`,
 };
 
-export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, typeTranslator};
+export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, TypeTranslator};
