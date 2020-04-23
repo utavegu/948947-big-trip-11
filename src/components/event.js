@@ -1,44 +1,51 @@
+import {msTranslator, TypeTranslator} from "../const.js";
+import {castTimeFormat} from "../util.js";
+
 // Разметка события
-export const createEventTemplate = () => {
+const createEvent = (event) => {
+
+  // Вот тут, и в эвент-эдите тоже, по части рефакторинга можно было сделать что - все преобразования сначала провести тут, положив их в переменную, а не городить их прямо в коде ниже.
+
   return `
     <li class="trip-events__item">
+
       <div class="event">
+
         <div class="event__type">
-          <img class="event__type-icon" width="42" height="42" src="img/icons/flight.png" alt="Event type icon">
+          <img class="event__type-icon" width="42" height="42" src="img/icons/${event.type.name}.png" alt="Event type icon">
         </div>
-        <h3 class="event__title">Flight to Chamonix</h3>
+
+        <h3 class="event__title">${TypeTranslator[event.type.name]}${event.type.pretext}${event.city}</h3>
 
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T12:25">12:25</time>
+            <time class="event__start-time" datetime="2019-03-18T12:25">${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T13:35">13:35</time>
+            <time class="event__end-time" datetime="2019-03-18T13:35">${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}</time>
           </p>
-          <p class="event__duration">1H 10M</p>
+          <p class="event__duration">${Math.trunc(event.interval.timeSpent / msTranslator.day)}D ${Math.trunc((event.interval.timeSpent / msTranslator.hour) % 24)}H ${Math.trunc(event.interval.timeSpent / msTranslator.min % 60)}M</p>
         </div>
 
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">160</span>
+          &euro;&nbsp;<span class="event__price-value">${event.price}</span>
         </p>
 
         <h4 class="visually-hidden">Offers:</h4>
+
         <ul class="event__selected-offers">
-          <li class="event__offer">
-            <span class="event__offer-title">Add luggage</span>
-            &plus;
-            &euro;&nbsp;<span class="event__offer-price">50</span>
-            </li>
-            <li class="event__offer">
-              <span class="event__offer-title">Switch to comfort</span>
-              &plus;
-              &euro;&nbsp;<span class="event__offer-price">80</span>
-            </li>
+          
+          ${event.offersElement}
+
         </ul>
 
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
+
       </div>
+
     </li>
   `;
 };
+
+export {createEvent};

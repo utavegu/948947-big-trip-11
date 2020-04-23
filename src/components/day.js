@@ -1,5 +1,5 @@
 // Разметка дня
-export const createDayTemplate = () => {
+export const createDay = () => {
   return `
     <ul class="trip-days">
       <li class="trip-days__item  day">
