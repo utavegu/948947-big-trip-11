@@ -1,7 +1,10 @@
-import {castTimeFormat} from "../util.js";
+import {castTimeFormat, createElement} from "../util.js";
 
 // Разметка редактирования события
-const createEditEvent = (event) => {
+const createEventEditTemplate = (event) => {
+
+  const eventStartTime = `${castTimeFormat(event.interval.startDate.getDate())}/${castTimeFormat(event.interval.startDate.getMonth())}/${String(event.interval.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}`;
+  const eventEndTime = `${castTimeFormat(event.interval.endDate.getDate())}/${castTimeFormat(event.interval.endDate.getMonth())}/${String(event.interval.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}`;
 
   // В будущем этот файл думаю естественным образом прорядится, в ходе работы над проектом
   return `
@@ -95,14 +98,14 @@ const createEditEvent = (event) => {
             From
           </label>
 
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${castTimeFormat(event.interval.startDate.getDate())}/${castTimeFormat(event.interval.startDate.getMonth())}/${String(event.interval.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${eventStartTime}">
           &mdash;
 
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
 
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${castTimeFormat(event.interval.endDate.getDate())}/${castTimeFormat(event.interval.endDate.getMonth())}/${String(event.interval.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${eventEndTime}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
@@ -163,4 +166,25 @@ const createEditEvent = (event) => {
   `;
 };
 
-export {createEditEvent};
+export default class EventEdit {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventEditTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+  
+}

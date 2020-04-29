@@ -1,4 +1,4 @@
-const EVENT_COUNT = 3; // Количество событий
+const EVENT_COUNT = 10; // Количество событий
 
 const OFFERS_ACTIONS = [
   `Дополнительное одеяло`,
@@ -44,6 +44,7 @@ const setOfPhrases = [
   `Дорогие друзья!`
 ];
 
+// я бы так и назвал preposition (предлог)
 const eventType = [
   {name: `bus`, pretext: ` to `},
   {name: `checkin`, pretext: ` in `},
@@ -57,13 +58,11 @@ const eventType = [
   {name: `transport`, pretext: ` to `}
 ];
 
-// Не получилось тоже самое провернуть внутри объекта, потому сделал так... дело наверное в том, что const, потом попробую let... хотя не должно по логике...
-
+// тоже MILICESC_IN_SEC = 1000 раз константа, а через нее остальное. Хотя любопытно зачем оно
 const sec = 1000; // Миллисекунд в секунде
 const min = sec * 60; // Миллисекунд в минуте
 const hour = min * 60; // Миллисекунд в часе
 const day = hour * 24; // Миллисекунд в дне
-
 
 const msTranslator = {
   sec,

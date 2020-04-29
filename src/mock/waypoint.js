@@ -1,4 +1,4 @@
-import {OFFERS_ACTIONS, CITIES, setOfPhrases, eventType} from "../const.js";
+import {OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator} from "../const.js";
 import {getRandomInteger, getRandomArrayItem, smartFillArray} from "../util.js";
 
 // Дополнительные опции (офферы)
@@ -17,8 +17,8 @@ const generateOffer = () => {
     },
     hypertextForEventEdit() {
       return `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-LUGGAGE-${this._randomChecker}" type="checkbox" name="event-offer-LUGGAGE" checked>
-                <label class="event__offer-label" for="event-offer-LUGGAGE-${this._randomChecker}">
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-TYPE-${this._randomChecker}" type="checkbox" name="event-offer-TYPE" checked>
+                <label class="event__offer-label" for="event-offer-TYPE-${this._randomChecker}">
                   <span class="event__offer-title">${this.action}</span>
                   &plus; &euro;&nbsp;
                   <span class="event__offer-price">${this.price}</span>
@@ -73,20 +73,17 @@ const getRandomDate = () => {
   const targetDate = new Date();
   const sign = Math.random() > 0.5 ? 1 : -1;
   const diffValue = sign * getRandomInteger(0, 8);
-
   targetDate.setDate(targetDate.getDate() + diffValue);
   targetDate.setHours(targetDate.getHours() + diffValue);
   targetDate.setMinutes(targetDate.getMinutes() + diffValue);
-
   return targetDate;
 };
 
 const generateRandomInterval = () => {
   const startDate = getRandomDate();
-  const endDate = new Date();
-  endDate.setDate(startDate.getDate() + getRandomInteger(0, 3));
-  endDate.setHours(startDate.getHours() + getRandomInteger(0, 8));
-  endDate.setMinutes(startDate.getMinutes() + getRandomInteger(0, 40));
+  const endDate = new Date(startDate);
+  const randomInterim = getRandomInteger(msTranslator.hour, (msTranslator.day) * 3)
+  endDate.setMilliseconds(startDate.getMilliseconds()+randomInterim);
   const timeSpent = endDate - startDate;
   const innerInterval = {
     startDate,
@@ -117,4 +114,4 @@ const generateEvents = (count) => {
     .map(generateEvent);
 };
 
-export {generateEvents};
+export {generateEvent, generateEvents};

@@ -1,5 +1,12 @@
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 // Случайное число
 // НУЖНОЕ МАКСИМАЛЬНОЕ ЗНАЧЕНИЕ УКАЗЫВАЙ НА ЕДИНИЧКУ БОЛЬШЕ!
+// Или лучше почини "случайный элемент массива"
+// Не забудь только потом значения везде поменять на -1
 const getRandomInteger = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -15,70 +22,13 @@ const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
-// Отсюда и до конца - я их оставлю пока чтобы вы видели эволюцию моего мыщления)))
-// Ну и мне как шпаргалка пригодятся тоже. Перед защитой вычищу
-// Придётся закомментировать, чтобы линтер не ругался
-
-/*
-// Так наверное нельзя параметры называть, да?
-const fillAnArray_VER1 = (element, min, max) => {
-  const arr = new Array(getRandomInteger(min, max)).fill(``);
-  const newArr = arr.map(() => {return element});
-  return newArr;
-};
-
-// Вот эта вроде лучшая пока... уже нет
-const fillAnArray_VER2 = (element, min, max) => {
-  return new Array(getRandomInteger(min, max)).fill(``).map(function () {
-    return element;
-  });
-};
-
-const fillAnArray_VER3 = (element, min, max) => {
-  const arr = new Array(getRandomInteger(min, max)).fill(``);
-  arr.forEach(() => arr.push(element));
-  arr.splice(0, arr.length/2);
-  return arr
-};
-
-const fillAnArray_VER4 = (element, min, max) => {
-    let arr = [];
-    for (let i = 0; i < getRandomInteger(min, max); i++) {
-      arr.push(element);
-    }
-  return arr
-};
-
-const FillArrayforCallback = (callback, min, max, separator = '\n') => {
-  let interimArr = new Array(getRandomInteger(min, max)).fill(``).map(function () {
-    return callback();
-  });;
-  const finalArr = interimArr.join(separator);
-  return finalArr;
-}
-
-const FillArrayforArray = (arrayConst, min, max, separator = '\n') => {
-  let interimArr = new Array(getRandomInteger(min, max)).fill(``).map(function () {
-    return getRandomArrayItem(arrayConst);
-  });;
-  const finalArr = interimArr.join(separator);
-  return finalArr;
-}
-
-const FillArrayforElement = (element, min, max, separator = '\n') => {
-  let interimArr = new Array(getRandomInteger(min, max)).fill(``).map(function () {
-    return element;
-  });;
-  const finalArr = interimArr.join(separator);
-  return finalArr;
-}
-*/
-
-const smartFillArray = (dataType, min, max, separator = `\n`) => {
-  // Не пойму, чего тут линтер от меня хочет
-  // Expected to return a value at the end of arrow function  consistent-return
+// вроде const
+// если он про map ниже пишет, тот там у тебя два условия, но если ни одно не выполнилось - ничего не вернется. А должно. Втрой if возможно не нужен, ведь это вторая ситуация и третьей нет.
+const smartFillArray = function (dataType, min, max, separator = `\n`) {
+  // так тоже не называем, смотри базовые критерии по наименованию. Уже писал.
   let interimArr = new Array(getRandomInteger(min, max)).fill(``).map(() => {
     // А ЕЩЁ ЛУЧШЕ ЕСЛИ ЧЕРЕЗ КЕЙС! Поразбираюсь как раз
+    // ВОН ВНИЗУ РАБОЧИЙ ПРИМЕР
     if (typeof dataType === `function`) {
       return dataType();
     }
@@ -90,4 +40,31 @@ const smartFillArray = (dataType, min, max, separator = `\n`) => {
   return finalArr;
 };
 
-export {getRandomInteger, getRandomArrayItem, castTimeFormat, smartFillArray};
+// Какая-то непонятная и бессмысленная штука о_0
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
+
+// Новая функция рэндера
+// МИХАИЛУ - я честно говоря не понял сакральный смысл её переделывания (функции render)... мол первая работала со строками, вторая с дом элементами... В чём преимущества? Можете это как-то объяснить понятным языком с примерами. То, что было на лекции - как-то не объяснило ничего. Как и сакральный смысл функции createElement - по ней тоже объясните плес, если не затруднит
+const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+/*
+// Функция рендера (ПЕРВАЯ)... Пока нужна для лучшего понимания
+const OLDrender = (container, template, place = `afterbegin`) => {
+  container.insertAdjacentHTML(place, template);
+};
+*/
+
+export {getRandomInteger, getRandomArrayItem, castTimeFormat, smartFillArray, RenderPosition, createElement, render};
