@@ -1,36 +1,19 @@
 import {createElement} from "../util.js";
+import {MonthTranslator} from "../const.js";
 
 const createDayTemplate = (date, number) => {
 
-  // ПЕРЕНЕСТИ В КОНСТАНТЫ
-  const MonthTranslator = {
-    0: `JAN`,
-    1: `FEB`,
-    2: `MAR`,
-    3: `APR`,
-    4: `MAY`,
-    5: `JUN`,
-    6: `JUL`,
-    7: `AUG`,
-    8: `SEP`,
-    9: `OCT`,
-    10: `NOV`,
-    11: `DEC`
-  }
+  const day = date.split(`-`)[0];
+  const month = MonthTranslator[(date.split(`-`)[1])];
 
-  const day = date.getDate();
-  const month = MonthTranslator[date.getMonth()];
-
-
-  // что-то мне подсказывает, что в атрибуте datetime тоже надо бы циферки поменять
   return `
     <ul class="trip-days">
       <li class="trip-days__item  day">
         <div class="day__info">
-          <span class="day__counter">${number+1}</span>
-          <time class="day__date" datetime="2019-03-18">${month} ${day}</time>
+          <span class="day__counter">${number + 1}</span>
+          <time class="day__date" datetime="2020-03-18">${month} ${day}</time>
         </div>
-        <ul class="trip-events__list">
+        <ul class="trip-events__list trip-events__list--${number}">
         </ul>
       </li>
     </ul>

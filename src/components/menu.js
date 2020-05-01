@@ -25,7 +25,6 @@ export default class Menu {
     return this._element;
   }
 
-  // Тут и любой другой класс - я не понимаю смысл этого метода и то, когда его нужно применять (1-2 примера мне бы в этом помогли)
   removeElement() {
     this._element = null;
   }

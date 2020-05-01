@@ -1,12 +1,10 @@
 import {castTimeFormat, createElement} from "../util.js";
 
-// Разметка редактирования события
 const createEventEditTemplate = (event) => {
 
-  const eventStartTime = `${castTimeFormat(event.interval.startDate.getDate())}/${castTimeFormat(event.interval.startDate.getMonth())}/${String(event.interval.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}`;
-  const eventEndTime = `${castTimeFormat(event.interval.endDate.getDate())}/${castTimeFormat(event.interval.endDate.getMonth())}/${String(event.interval.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}`;
+  const eventStartTime = `${castTimeFormat(event.interval.startDate.getDate())}/${castTimeFormat(Number(event.interval.startDate.getMonth()) + 1)}/${String(event.interval.startDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}`;
+  const eventEndTime = `${castTimeFormat(event.interval.endDate.getDate())}/${castTimeFormat(Number(event.interval.endDate.getMonth()) + 1)}/${String(event.interval.endDate.getFullYear()).substr(2)} ${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}`;
 
-  // В будущем этот файл думаю естественным образом прорядится, в ходе работы над проектом
   return `
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
@@ -80,7 +78,7 @@ const createEventEditTemplate = (event) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${event.type.name}${event.type.pretext}
+            ${event.type.name}${event.type.preposition}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.city}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -186,5 +184,5 @@ export default class EventEdit {
   removeElement() {
     this._element = null;
   }
-  
+
 }

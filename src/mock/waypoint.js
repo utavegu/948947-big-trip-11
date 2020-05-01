@@ -1,7 +1,6 @@
 import {OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator} from "../const.js";
-import {getRandomInteger, getRandomArrayItem, smartFillArray} from "../util.js";
+import {getRandomInteger, getRandomArrayItem, fillData} from "../util.js";
 
-// Дополнительные опции (офферы)
 const generateOffer = () => {
   return {
     action: getRandomArrayItem(OFFERS_ACTIONS),
@@ -33,11 +32,7 @@ const generateRandomPhoto = () => {
   return photoElement;
 };
 
-const photoGallery = smartFillArray(generateRandomPhoto, 1, 6);
-
-const phrase = smartFillArray(setOfPhrases, 1, 6, `. `);
-
-// Вот всё что ниже, касаемо офферов, я понимаю, что можно ещё как-то оптимизировать, но я уже неприлично долго делаю это задание, потому предлагаю закрыть на это глаза и оставить это мне на период самостоятельной работы
+// TO DO WIP тут вообще всё переделаю кхерам потом
 const generateOffersArray = (count) => {
   const innerOffers = [];
   for (let i = 0; i < count; i++) {
@@ -45,10 +40,7 @@ const generateOffersArray = (count) => {
   }
   return innerOffers;
 };
-
 const offers = generateOffersArray(50);
-
-// Почему-то не смог передать метод через параметр, потому 2 отдельные функции
 const generateOffersElement = (count) => {
   const offersElementArr = [];
   for (let i = 0; i < count; i++) {
@@ -57,9 +49,6 @@ const generateOffersElement = (count) => {
   const finalArr = offersElementArr.join(`<br><br>`);
   return finalArr;
 };
-// Ещё по ТЗ генерироваться может до 5 офферов, но отображаться должно не больше трёх (в режиме просмотра, а не редактирования). Я это пока не реализую, так же предлагаю оставить на самостоятельную работу, я вроде примерно понимаю как это можно будет сделать.
-
-// Вот тут критично не набивать одинаковыми элементами, иначе чекаться не будет. На данный момент я могу решить эту проблему увеличением генерируемых элементов массива, но это будет не продуктивное решение, так как повлияет на производительность. В идеале эта проблема решается чисткой массива от неуникальных элементов. Но я это баг оставлю, ибо время сильно поджимает. Сейчас я поменяю циферку на 50 и вы скорее всего даже не заметите о чём я =)
 const generateOffersElementEdit = (count) => {
   const offersElementArr = [];
   for (let i = 0; i < count; i++) {
@@ -68,6 +57,7 @@ const generateOffersElementEdit = (count) => {
   const finalArr = offersElementArr.join(``);
   return finalArr;
 };
+// до
 
 const getRandomDate = () => {
   const targetDate = new Date();
@@ -82,8 +72,8 @@ const getRandomDate = () => {
 const generateRandomInterval = () => {
   const startDate = getRandomDate();
   const endDate = new Date(startDate);
-  const randomInterim = getRandomInteger(msTranslator.hour, (msTranslator.day) * 3)
-  endDate.setMilliseconds(startDate.getMilliseconds()+randomInterim);
+  const randomInterim = getRandomInteger(msTranslator.MS_IN_HOUR, (msTranslator.MS_IN_DAY) * 3);
+  endDate.setMilliseconds(startDate.getMilliseconds() + randomInterim);
   const timeSpent = endDate - startDate;
   const innerInterval = {
     startDate,
@@ -93,7 +83,6 @@ const generateRandomInterval = () => {
   return innerInterval;
 };
 
-// Генерирую одну точку маршрута, она же "событие" (параметр event)
 const generateEvent = () => {
   return {
     type: getRandomArrayItem(eventType),
@@ -101,13 +90,12 @@ const generateEvent = () => {
     price: getRandomInteger(0, 501),
     offersElement: generateOffersElement(getRandomInteger(0, 4)),
     offersElementEdit: generateOffersElementEdit(getRandomInteger(0, 6)),
-    phrase,
-    photo: photoGallery,
+    phrase: fillData(setOfPhrases, 1, 6, `. `),
+    photo: fillData(generateRandomPhoto, 1, 6),
     interval: generateRandomInterval(),
   };
 };
 
-// Упаковываю массив объектами событий
 const generateEvents = (count) => {
   return new Array(count)
     .fill(``)

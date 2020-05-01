@@ -1,13 +1,12 @@
-import {msTranslator, TypeTranslator} from "../const.js";
+import {msTranslator} from "../const.js";
 import {castTimeFormat, createElement} from "../util.js";
 
-// Разметка события
 const createEventTemplate = (event) => {
 
-  const eventTitle = `${TypeTranslator[event.type.name]}${event.type.pretext}${event.city}`;
+  const eventTitle = `${event.type.name}${event.type.preposition}${event.city}`;
   const eventStartTime = `${castTimeFormat(event.interval.startDate.getHours())}:${castTimeFormat(event.interval.startDate.getMinutes())}`;
   const eventEndTime = `${castTimeFormat(event.interval.endDate.getHours())}:${castTimeFormat(event.interval.endDate.getMinutes())}`;
-  const eventDuration = `${Math.trunc(event.interval.timeSpent / msTranslator.day)}D ${Math.trunc((event.interval.timeSpent / msTranslator.hour) % 24)}H ${Math.trunc(event.interval.timeSpent / msTranslator.min % 60)}M`;
+  const eventDuration = `${Math.trunc(event.interval.timeSpent / msTranslator.MS_IN_DAY)}D ${Math.trunc((event.interval.timeSpent / msTranslator.MS_IN_HOUR) % 24)}H ${Math.trunc(event.interval.timeSpent / msTranslator.MS_IN_MIN % 60)}M`;
 
   return `
     <li class="trip-events__item">
@@ -51,14 +50,6 @@ const createEventTemplate = (event) => {
   `;
 };
 
-/*
-const createEventTemplate = (events) => {
-  const eventsMarkup = events.map((it) => createEventMarkup(it)).join(`\n`);
-  return `${eventsMarkup}`;
-};
-*/
-
-// ПОЧЕМУ КСТАТИ ГЕТТЕРЫ (новый синтаксис) НЕ ИСПОЛЬЗУЕМ? ПОПРАВЬ КА
 export default class Event {
   constructor(event) {
     this._event = event;
@@ -79,7 +70,5 @@ export default class Event {
   removeElement() {
     this._element = null;
   }
-  
-}
 
-// alert("EventComponent подгрузился!");
+}

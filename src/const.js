@@ -1,4 +1,4 @@
-const EVENT_COUNT = 10; // Количество событий
+const EVENT_COUNT = 10;
 
 const OFFERS_ACTIONS = [
   `Дополнительное одеяло`,
@@ -27,11 +27,11 @@ const OFFERS_ACTIONS = [
 ];
 
 const CITIES = [
-  `Мытищи`,
-  `Урюпинск`,
-  `Елабуга`,
-  `Тумтук`,
-  `Кандрыкуль`
+  `Mytishy`,
+  `Uriupinsk`,
+  `Elabuga`,
+  `Tumtuk`,
+  `Kandykul`
 ];
 
 const setOfPhrases = [
@@ -44,44 +44,50 @@ const setOfPhrases = [
   `Дорогие друзья!`
 ];
 
-// я бы так и назвал preposition (предлог)
 const eventType = [
-  {name: `bus`, pretext: ` to `},
-  {name: `checkin`, pretext: ` in `},
-  {name: `drive`, pretext: ` to `},
-  {name: `flight`, pretext: ` to `},
-  {name: `restaurant`, pretext: ` in `},
-  {name: `ship`, pretext: ` to `},
-  {name: `sightseeing`, pretext: ` in `},
-  {name: `taxi`, pretext: ` to `},
-  {name: `train`, pretext: ` to `},
-  {name: `transport`, pretext: ` to `}
+  {name: `bus`, preposition: ` to `},
+  {name: `checkin`, preposition: ` in `},
+  {name: `drive`, preposition: ` to `},
+  {name: `flight`, preposition: ` to `},
+  {name: `restaurant`, preposition: ` in `},
+  {name: `ship`, preposition: ` to `},
+  {name: `sightseeing`, preposition: ` in `},
+  {name: `taxi`, preposition: ` to `},
+  {name: `train`, preposition: ` to `},
+  {name: `transport`, preposition: ` to `}
 ];
 
-// тоже MILICESC_IN_SEC = 1000 раз константа, а через нее остальное. Хотя любопытно зачем оно
-const sec = 1000; // Миллисекунд в секунде
-const min = sec * 60; // Миллисекунд в минуте
-const hour = min * 60; // Миллисекунд в часе
-const day = hour * 24; // Миллисекунд в дне
+const MS_IN_SEC = 1000;
+const MS_IN_MIN = MS_IN_SEC * 60;
+const MS_IN_HOUR = MS_IN_MIN * 60;
+const MS_IN_DAY = MS_IN_HOUR * 24;
 
 const msTranslator = {
-  sec,
-  min,
-  hour,
-  day
+  MS_IN_SEC,
+  MS_IN_MIN,
+  MS_IN_HOUR,
+  MS_IN_DAY
 };
 
-const TypeTranslator = {
-  bus: `Автобусом`,
-  checkin: `Ебануть сэлфи`,
-  drive: `На машине`,
-  flight: `Самолетом`,
-  restaurant: `Зохавать бурито`,
-  ship: `Пароходом`,
-  sightseeing: `Посмотреть что-то`,
-  taxi: `Вези меня!..`,
-  train: `На поезде`,
-  transport: `На Сапсане`,
+const sortBy = {
+  ascending(a, b) {
+    return a - b;
+  }
 };
 
-export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, TypeTranslator};
+const MonthTranslator = {
+  0: `JAN`,
+  1: `FEB`,
+  2: `MAR`,
+  3: `APR`,
+  4: `MAY`,
+  5: `JUN`,
+  6: `JUL`,
+  7: `AUG`,
+  8: `SEP`,
+  9: `OCT`,
+  10: `NOV`,
+  11: `DEC`
+};
+
+export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, sortBy, MonthTranslator};
