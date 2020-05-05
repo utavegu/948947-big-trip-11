@@ -1,8 +1,7 @@
 import {createElement} from "../util.js";
 
-const createSortTemplate = () => {
-  return `
-    <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+const createSortingTemplate = () => {
+  return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
       <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
       <div class="trip-sort__item  trip-sort__item--event">
@@ -31,17 +30,16 @@ const createSortTemplate = () => {
       </div>
 
       <span class="trip-sort__item  trip-sort__item--offers">Offers</span>
-    </form>
-  `;
+  </form>`;
 };
 
-export default class Sort {
+export default class Sorting {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createSortTemplate();
+    return createSortingTemplate();
   }
 
   getElement() {

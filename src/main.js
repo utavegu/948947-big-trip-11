@@ -1,6 +1,6 @@
 import MenuComponent from "./components/menu.js";
 import FilterComponent from "./components/filter.js";
-import SortComponent from "./components/sort.js";
+import SortingComponent from "./components/sorting.js";
 import DayComponent from "./components/day.js";
 import EventComponent from "./components/event.js";
 import EventEditComponent from "./components/event-edit.js";
@@ -11,25 +11,27 @@ import {render, RenderPosition} from "./util.js";
 const tripControl = document.querySelector(`.trip-main__trip-controls`);
 const eventContainer = document.querySelector(`.trip-events`);
 
-// TO DO ВОПРОС НАСТАВНИКУ: Тут и в других рендерах - почему-то у меня не получилось решить задачу без .nextElementSibling. Не смотря на то, что в Таскманагере код абсолютно аналогичный - там почему-то работает, а тут нет. Нифига не понял.
-render(tripControl, new MenuComponent().getElement().nextElementSibling, RenderPosition.BEFOREEND);
-render(tripControl, new FilterComponent().getElement().nextElementSibling, RenderPosition.BEFOREEND);
-render(eventContainer, new SortComponent().getElement().nextElementSibling, RenderPosition.BEFOREEND);
+render(tripControl, new MenuComponent().getElement(), RenderPosition.BEFOREEND);
+render(tripControl, new FilterComponent().getElement(), RenderPosition.BEFOREEND);
+render(eventContainer, new SortingComponent().getElement(), RenderPosition.BEFOREEND);
 
 const events = generateEvents(EVENT_COUNT);
 
-// TO DO WIP от
-const dateOfDays = [];
+let dateOfDays = [];
+
 for (const event of events) {
   dateOfDays.push(event.interval.startDate);
 }
+
 dateOfDays.sort(sortBy.ascending);
-const dateOfDaysSET = new Set();
-for (const event of dateOfDays) {
-  dateOfDaysSET.add(event.getDate() + `-` + event.getMonth());
+
+const intermediateDateOfDays = new Set();
+
+for (const date of dateOfDays) {
+  intermediateDateOfDays.add(date.getDate() + `-` + date.getMonth());
 }
-const dateOfDaysARRAY = Array.from(dateOfDaysSET);
-// до
+
+dateOfDays = Array.from(intermediateDateOfDays);
 
 const renderEvent = (tripEventListParam, eventParam) => {
 
@@ -42,27 +44,42 @@ const renderEvent = (tripEventListParam, eventParam) => {
     tripEventListParam.replaceChild(eventComponent, eventEditComponent);
   };
 
-  const eventComponent = new EventComponent(eventParam).getElement().nextElementSibling;
+  const onRollUpButtonClick = () => {
+    tripEventListParam.replaceChild(eventComponent, eventEditComponent);
+  };
+
+  const eventComponent = new EventComponent(eventParam).getElement();
   const editButton = eventComponent.querySelector(`.event__rollup-btn`);
   editButton.addEventListener(`click`, onEditButtonClick);
 
-  const eventEditComponent = new EventEditComponent(eventParam).getElement().nextElementSibling;
+  const eventEditComponent = new EventEditComponent(eventParam).getElement();
   eventEditComponent.addEventListener(`submit`, onEditFormSubmit);
+
+  const rollUpButton = eventEditComponent.querySelector(`.event__rollup-btn`);
+  rollUpButton.addEventListener(`click`, onRollUpButtonClick);
 
   render(tripEventListParam, eventComponent, RenderPosition.BEFOREEND);
 };
 
-for (let i = 0; i < dateOfDaysARRAY.length; i++) {
-  render(eventContainer, new DayComponent(dateOfDaysARRAY[i], i).getElement().nextElementSibling, RenderPosition.BEFOREEND);
+const sortEventsInsideDay = (tripEvents) => {
+  return tripEvents.sort(function (a, b) {
+    return a.interval.endDate.getTime() - b.interval.endDate.getTime();
+  });
+};
+
+const sortedEvents = sortEventsInsideDay(events);
+
+for (let i = 0; i < dateOfDays.length; i++) {
+  render(eventContainer, new DayComponent(dateOfDays[i], i).getElement(), RenderPosition.BEFOREEND);
   const tripEventList = document.querySelector(`.trip-events__list--${i}`);
 
   for (let j = 0; j < EVENT_COUNT; j++) {
-    const dayDate = dateOfDaysARRAY[i].split(`-`)[0];
-    const dayMonth = dateOfDaysARRAY[i].split(`-`)[1];
-    const eventDay = events[j].interval.startDate.getDate();
-    const eventMonth = events[j].interval.startDate.getMonth();
-    if ((dayDate == eventDay) && (dayMonth == eventMonth)) { // TO DO WIP
-      renderEvent(tripEventList, events[j]);
+    const dayDate = dateOfDays[i].split(`-`)[0];
+    const dayMonth = dateOfDays[i].split(`-`)[1];
+    const eventDay = sortedEvents[j].interval.startDate.getDate();
+    const eventMonth = sortedEvents[j].interval.startDate.getMonth();
+    if ((dayDate === String(eventDay)) && (dayMonth === String(eventMonth))) {
+      renderEvent(tripEventList, sortedEvents[j]);
     }
   }
 }

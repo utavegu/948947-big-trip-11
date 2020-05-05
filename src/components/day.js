@@ -6,8 +6,7 @@ const createDayTemplate = (date, number) => {
   const day = date.split(`-`)[0];
   const month = MonthTranslator[(date.split(`-`)[1])];
 
-  return `
-    <ul class="trip-days">
+  return `<ul class="trip-days">
       <li class="trip-days__item  day">
         <div class="day__info">
           <span class="day__counter">${number + 1}</span>
@@ -16,8 +15,7 @@ const createDayTemplate = (date, number) => {
         <ul class="trip-events__list trip-events__list--${number}">
         </ul>
       </li>
-    </ul>
-  `;
+  </ul>`;
 };
 
 export default class Day {

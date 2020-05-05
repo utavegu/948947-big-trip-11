@@ -16,14 +16,13 @@ const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
-// TO DO Я так понял, тут замечание было по критерию Б9, но тогда не понимаю, почему getRandomArrayItem проходит
 const fillData = (dataType, min, max, separator = `\n`) => {
   const interim = new Array(getRandomInteger(min, max)).fill(``).map(() => {
-    if (typeof dataType === `function`) {
-      return dataType();
-    }
-    if (typeof dataType === `object`) {
-      return getRandomArrayItem(dataType);
+    switch (typeof dataType) {
+      case `function`:
+        return dataType();
+      case `object`:
+        return getRandomArrayItem(dataType);
     }
   });
   const final = interim.join(separator);

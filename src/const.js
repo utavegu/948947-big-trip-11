@@ -72,6 +72,9 @@ const msTranslator = {
 const sortBy = {
   ascending(a, b) {
     return a - b;
+  },
+  descending(a, b) {
+    return b - a;
   }
 };
 
