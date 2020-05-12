@@ -7,6 +7,7 @@ import EventEditComponent from "./components/event-edit.js";
 import {generateEvents} from "./mock/waypoint.js";
 import {EVENT_COUNT, sortBy} from "./const.js";
 import {render, RenderPosition} from "./util.js";
+import NoPointsComponent from "./components/no-points.js";
 
 const tripControl = document.querySelector(`.trip-main__trip-controls`);
 const eventContainer = document.querySelector(`.trip-events`);
@@ -16,6 +17,11 @@ render(tripControl, new FilterComponent().getElement(), RenderPosition.BEFOREEND
 render(eventContainer, new SortingComponent().getElement(), RenderPosition.BEFOREEND);
 
 const events = generateEvents(EVENT_COUNT);
+
+// ПОКА ТАК (сломается, если удалить все точки маршрута вручную)
+if (events.length === 0) {
+  render(eventContainer, new NoPointsComponent().getElement(), RenderPosition.BEFOREEND);
+}
 
 let dateOfDays = [];
 
@@ -35,28 +41,43 @@ dateOfDays = Array.from(intermediateDateOfDays);
 
 const renderEvent = (tripEventListParam, eventParam) => {
 
-  const onEditButtonClick = () => {
+  const replaceEventToEdit = () => {
     tripEventListParam.replaceChild(eventEditComponent, eventComponent);
   };
 
-  const onEditFormSubmit = (evt) => {
-    evt.preventDefault();
+  const replaceEditToEvent = () => {
     tripEventListParam.replaceChild(eventComponent, eventEditComponent);
   };
 
-  const onRollUpButtonClick = () => {
-    tripEventListParam.replaceChild(eventComponent, eventEditComponent);
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      replaceEditToEvent();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
   };
 
   const eventComponent = new EventComponent(eventParam).getElement();
+
   const editButton = eventComponent.querySelector(`.event__rollup-btn`);
-  editButton.addEventListener(`click`, onEditButtonClick);
+  editButton.addEventListener(`click`, () => {
+    replaceEventToEdit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
   const eventEditComponent = new EventEditComponent(eventParam).getElement();
-  eventEditComponent.addEventListener(`submit`, onEditFormSubmit);
+  eventEditComponent.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceEditToEvent();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   const rollUpButton = eventEditComponent.querySelector(`.event__rollup-btn`);
-  rollUpButton.addEventListener(`click`, onRollUpButtonClick);
+  rollUpButton.addEventListener(`click`, () => {
+    replaceEditToEvent();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(tripEventListParam, eventComponent, RenderPosition.BEFOREEND);
 };
