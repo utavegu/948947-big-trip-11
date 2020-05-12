@@ -1,12 +1,12 @@
+import {EVENT_COUNT, sortBy} from "./const.js";
+import {render, RenderPosition} from "./utils/render.js";
+import {generateEvents} from "./mock/waypoint.js";
 import MenuComponent from "./components/menu.js";
 import FilterComponent from "./components/filter.js";
 import SortingComponent from "./components/sorting.js";
 import DayComponent from "./components/day.js";
 import EventComponent from "./components/event.js";
 import EventEditComponent from "./components/event-edit.js";
-import {generateEvents} from "./mock/waypoint.js";
-import {EVENT_COUNT, sortBy} from "./const.js";
-import {render, RenderPosition} from "./util.js";
 import NoPointsComponent from "./components/no-points.js";
 
 const tripControl = document.querySelector(`.trip-main__trip-controls`);

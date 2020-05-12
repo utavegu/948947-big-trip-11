@@ -1,4 +1,5 @@
-import {castTimeFormat, createElement} from "../util.js";
+import AbstractComponent from "./abstract-component.js";
+import {castTimeFormat} from "../utils/common.js";
 
 const createEventEditTemplate = (event) => {
   const offers = [];
@@ -175,25 +176,15 @@ const createEventEditTemplate = (event) => {
   </form>`;
 };
 
-export default class EventEdit {
+export default class EventEdit extends AbstractComponent {
   constructor(event) {
+    super();
+
     this._event = event;
-    this._element = null;
+    // this._element = null;
   }
 
   getTemplate() {
     return createEventEditTemplate(this._event);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
 }

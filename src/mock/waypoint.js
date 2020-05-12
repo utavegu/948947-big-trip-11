@@ -1,5 +1,5 @@
 import {OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator} from "../const.js";
-import {getRandomInteger, getRandomArrayItem, fillData} from "../util.js";
+import {getRandomInteger, getRandomArrayItem, fillData} from "../utils/common.js";
 
 const generateOffer = () => {
   return {

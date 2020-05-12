@@ -1,4 +1,4 @@
-import {createElement} from "../util.js";
+import AbstractComponent from "./abstract-component.js";
 import {MonthTranslator} from "../const.js";
 
 const createDayTemplate = (date, number) => {
@@ -18,25 +18,16 @@ const createDayTemplate = (date, number) => {
   </ul>`;
 };
 
-export default class Day {
+export default class Day extends AbstractComponent {
   constructor(date, orderNumber) {
+    super();
+
     this._date = date;
     this._orderNumber = orderNumber;
-    this._element = null;
+    // this._element = null;
   }
 
   getTemplate() {
     return createDayTemplate(this._date, this._orderNumber);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
