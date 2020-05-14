@@ -1,5 +1,5 @@
 import {EVENT_COUNT, sortBy} from "./const.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {render, RenderPosition, replace} from "./utils/render.js";
 import {generateEvents} from "./mock/waypoint.js";
 import MenuComponent from "./components/menu.js";
 import FilterComponent from "./components/filter.js";
@@ -39,48 +39,61 @@ for (const date of dateOfDays) {
 
 dateOfDays = Array.from(intermediateDateOfDays);
 
-const renderEvent = (tripEventListParam, eventParam) => {
 
+const renderEvent = (container, event) => {
+
+  const eventComponent = new EventComponent(event); // компонент события
+  const eventEditComponent = new EventEditComponent(event); // форма редактирования
+
+  // Поменять ивент на эдит
   const replaceEventToEdit = () => {
-    tripEventListParam.replaceChild(eventEditComponent, eventComponent);
+    replace(eventEditComponent, eventComponent);
   };
 
+  // Поменять эдит на ивент
   const replaceEditToEvent = () => {
-    tripEventListParam.replaceChild(eventComponent, eventEditComponent);
+    replace(eventComponent, eventEditComponent);
   };
 
+  // Реакция на нажатие Эскейпа
+  // РАЗБЕРИСЬ С ЕВТ КЕЙ
   const onEscKeyDown = (evt) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
     if (isEscKey) {
       replaceEditToEvent();
       document.removeEventListener(`keydown`, onEscKeyDown);
     }
   };
 
-  const eventComponent = new EventComponent(eventParam).getElement();
+  // Обработчик клика на кнопку редактирования
+  const onEditButtonClick = () => {
+    replaceEventToEdit(); // Поменял ивент на эдит
+    document.addEventListener(`keydown`, onEscKeyDown); // Повесил слушатель эскейпа
+  };
 
-  const editButton = eventComponent.querySelector(`.event__rollup-btn`);
-  editButton.addEventListener(`click`, () => {
-    replaceEventToEdit();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
+  const onFormSubmit = (evt) => {
+    evt.preventDefault(); // Чтоб форма не отправлялась
+    replaceEditToEvent(); // Поменял эдит на ивент
+    document.removeEventListener(`keydown`, onEscKeyDown); // Удалил слушатель эскейпа
+  };
 
-  const eventEditComponent = new EventEditComponent(eventParam).getElement();
-  eventEditComponent.addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  const onCloseFormButtonClick = () => {
     replaceEditToEvent();
     document.removeEventListener(`keydown`, onEscKeyDown);
-  });
+  };
 
-  const rollUpButton = eventEditComponent.querySelector(`.event__rollup-btn`);
-  rollUpButton.addEventListener(`click`, () => {
-    replaceEditToEvent();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  });
+  // Слушатель на кнопке "edit" (галочка вниз)
+  eventComponent.setEditButtonClickHandler(onEditButtonClick);
 
-  render(tripEventListParam, eventComponent, RenderPosition.BEFOREEND);
+  // Слушатель на кнопке Save
+  eventEditComponent.setSubmitHandler(onFormSubmit);
+
+  // Слушатель на кнопке закрытия редактирования (галочка вверх)
+  eventEditComponent.setCloseFormButtonClickHandler(onCloseFormButtonClick);
+
+  render(container, eventComponent.getElement(), RenderPosition.BEFOREEND);
 };
+
 
 const sortEventsInsideDay = (tripEvents) => {
   return tripEvents.sort(function (a, b) {

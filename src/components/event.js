@@ -53,10 +53,16 @@ export default class Event extends AbstractComponent {
     super();
 
     this._event = event;
-    // this._element = null;
   }
 
   getTemplate() {
     return createEventTemplate(this._event);
   }
+
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.event__rollup-btn`)
+      .addEventListener(`click`, handler);
+  }
+
 }
+

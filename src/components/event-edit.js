@@ -181,10 +181,19 @@ export default class EventEdit extends AbstractComponent {
     super();
 
     this._event = event;
-    // this._element = null;
   }
 
   getTemplate() {
     return createEventEditTemplate(this._event);
   }
+
+  setSubmitHandler(handler) {
+    this.getElement().addEventListener(`submit`, handler);
+  }
+
+  setCloseFormButtonClickHandler(handler) {
+    this.getElement().querySelector(`.event__rollup-btn`)
+      .addEventListener(`click`, handler);
+  }
+
 }
