@@ -1,5 +1,6 @@
+import AbstractComponent from "./abstract-component.js";
 import {msTranslator} from "../const.js";
-import {castTimeFormat, createElement} from "../util.js";
+import {castTimeFormat} from "../utils/common.js";
 
 const createEventTemplate = (event) => {
   const offers = [];
@@ -47,25 +48,21 @@ const createEventTemplate = (event) => {
   </li>`;
 };
 
-export default class Event {
+export default class Event extends AbstractComponent {
   constructor(event) {
+    super();
+
     this._event = event;
-    this._element = null;
   }
 
   getTemplate() {
     return createEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.event__rollup-btn`)
+      .addEventListener(`click`, handler);
   }
 
 }
+
