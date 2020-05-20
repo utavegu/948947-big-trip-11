@@ -14,19 +14,4 @@ render(tripControl, new FilterComponent().getElement(), RenderPosition.BEFOREEND
 const events = generateEvents(EVENT_COUNT);
 
 const tripController = new TripController(eventContainer);
-// render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
 tripController.render(events);
-
-/*
-Борд в мэйне:
-const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent);
-render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
-boardController.render(tasks);
-*/
-
-
-
-
-
-

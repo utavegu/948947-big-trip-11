@@ -69,13 +69,10 @@ const msTranslator = {
   MS_IN_DAY
 };
 
-const sortBy = {
-  ascending(a, b) {
-    return a - b;
-  },
-  descending(a, b) {
-    return b - a;
-  }
+const SortType = {
+  DEFAULT: `default`,
+  TIME: `by-time`,
+  PRICE: `by-price`
 };
 
 const MonthTranslator = {
@@ -93,4 +90,4 @@ const MonthTranslator = {
   11: `DEC`
 };
 
-export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, sortBy, MonthTranslator};
+export {EVENT_COUNT, OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator, MonthTranslator, SortType};

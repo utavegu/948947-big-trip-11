@@ -19,7 +19,7 @@ const generateOffers = () => {
 };
 
 const generateRandomPhoto = () => {
-  const photoElement = `<img class="event__photo" src="./img/photos/${getRandomInteger(1, 26)}.jpg" alt="Какая-то фотка"></img>`;
+  const photoElement = `<img class="event__photo" src="./img/photos/${getRandomInteger(1, 38)}.jpg" alt="Какая-то фотка"></img>`;
   return photoElement;
 };
 
