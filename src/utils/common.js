@@ -12,7 +12,7 @@ const castTimeFormat = (value) => {
 };
 
 const fillData = (dataType, min, max, separator = `\n`) => {
-  const interim = new Array(getRandomInteger(min, max)).fill(``).map(() => { // я хер знает как тебя фиксить, мне так всё нравится
+  const interim = new Array(getRandomInteger(min, max)).fill(``).map(() => { // я не знаю как тебя фиксить, мне так всё нравится
     switch (typeof dataType) {
       case `function`:
         return dataType();
