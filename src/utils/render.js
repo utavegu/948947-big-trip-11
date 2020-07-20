@@ -20,13 +20,6 @@ const render = (container, element, place) => {
   }
 };
 
-/*
-const OLDrender = (container, template, place = `afterbegin`) => {
-  container.insertAdjacentHTML(place, template);
-  КОРОЧЕ ПОГУГЛИ РАЗНИЦУ ИНСЕРТАДЖАСЕНТА И АППЕНДА-ПРЕПЕНДА И ГРОХНИ ЭТОТ БЛОК
-};
-*/
-
 const replace = (newComponent, oldComponent) => {
   const parentElement = oldComponent.getElement().parentElement;
   const newElement = newComponent.getElement();

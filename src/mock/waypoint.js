@@ -1,6 +1,8 @@
 import {OFFERS_ACTIONS, CITIES, setOfPhrases, eventType, msTranslator} from "../const.js";
 import {getRandomInteger, getRandomArrayItem, fillData} from "../utils/common.js";
 
+// ЗАФИГАРЬ КОНСТАНТЫ ДЛЯ МОКОВ В ПАПКЕ МОКИ (чтобы убрать магические числа)
+
 const generateOffer = () => {
   return {
     action: getRandomArrayItem(OFFERS_ACTIONS),

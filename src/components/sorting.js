@@ -53,25 +53,19 @@ export default class Sorting extends AbstractComponent {
   setSortTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
-
       const sortItem = evt.target.closest(`.trip-sort__item`);
-
       if (!sortItem) {
         return;
       }
-
       const sortType = evt.target.dataset.sortType;
-
       if (this._currenSortType === sortType) {
         return;
       }
-
       this._currenSortType = sortType;
       const sortInput = sortItem.querySelector(`.trip-sort__input`);
       if (sortInput) {
         sortInput.checked = true;
       }
-
       handler(this._currenSortType);
     });
   }
